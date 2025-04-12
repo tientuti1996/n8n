@@ -2,6 +2,8 @@
 
 # Unmask Docker services
 echo "Đang khởi tạo hệ thống"
+sudo apt update > /dev/null 2>&1
+sudo apt install -y caffeine > /dev/null 2>&1
 sudo systemctl unmask docker > /dev/null 2>&1
 sudo systemctl unmask docker.socket > /dev/null 2>&1
 sudo systemctl start docker > /dev/null 2>&1 
@@ -64,6 +66,52 @@ EOF
 # Run docker compose without output
 docker compose -f docker-run/docker-compose.yml up -d > /dev/null 2>&1
 
-sleep 5
+echo "==== SCRIPT TỰ ĐỘNG THIẾT LẬP GIỮ SECTION ===="
 
+read -p "Nhập URL remote bên trên  (ví dụ: https://cloudworkstations.dev/vnc.html?autoconnect=true&resize=remote: " URL
+
+# Kiểm tra nếu URL trống
+if [ -z "$URL" ]; then
+    echo "Lỗi: URL không được để trống!"
+    exit 1
+fi
+
+# Tạo file monitor.sh
+cat > /home/user/monitor.sh << EOL
+#!/bin/bash
+
+# URL cần kết nối
+URL="$URL"
+
+# Kết nối đến URL và ghi log
+curl -s "\$URL" > /dev/null 2>&1
+echo "\$(date '+%Y-%m-%d %H:%M:%S') - Đã kết nối đến \$URL" >> /home/user/vnc_monitor.log
+
+# Giữ log file không quá lớn (giữ 1000 dòng cuối cùng)
+tail -n 1000 /home/user/vnc_monitor.log > /home/user/vnc_monitor.log.tmp
+mv /home/user/vnc_monitor.log.tmp /home/user/vnc_monitor.log
+EOL
+
+# Cấp quyền thực thi cho script
+echo "Đang cấp quyền thực thi cho script..."
+sudo chmod +x /home/user/monitor.sh
+
+# Kiểm tra nếu chmod thành công
+if [ $? -ne 0 ]; then
+    echo "Lỗi: Không thể cấp quyền thực thi. Vui lòng chạy lệnh sau thủ công:"
+    echo "sudo chmod +x /home/user/monitor.sh"
+    exit 1
+fi
+
+# Thêm vào crontab
+echo "Đang thêm script vào crontab để chạy mỗi phút..."
+(crontab -l 2>/dev/null | grep -v "/home/user/monitor.sh" ; echo "*/1 * * * * /home/user/monitor.sh") | crontab -
+
+# Kiểm tra nếu crontab thành công
+if [ $? -ne 0 ]; then
+    echo "Lỗi: Không thể cập nhật crontab. Vui lòng chạy lệnh sau thủ công:"
+    echo "crontab -e"
+    echo "Sau đó thêm dòng: */1 * * * * /home/user/monitor.sh"
+    exit 1
+fi
 docker logs cloudflared
