@@ -1,19 +1,14 @@
 #!/bin/bash
 
 # Unmask Docker services
-sudo systemctl unmask docker
-echo "1"
-sudo systemctl unmask docker.socket
-echo "2"
-sudo systemctl start docker
-echo "3"
-sudo systemctl start docker.socket
-echo "4"
-sudo systemctl unmask containerd.service
-echo "5"
-sudo systemctl start containerd.service
-echo "6"
-sudo systemctl start docker
+echo "Đang khởi tạo hệ thống"
+sudo systemctl unmask docker > /dev/null 2>&1
+sudo systemctl unmask docker.socket > /dev/null 2>&1
+sudo systemctl start docker > /dev/null 2>&1 
+sudo systemctl start docker.socket > /dev/null 2>&1
+sudo systemctl unmask containerd.service > /dev/null 2>&1
+sudo systemctl start containerd.service > /dev/null 2>&1
+sudo systemctl start docker > /dev/null 2>&1 
 # Create directories
 sudo mkdir -p docker-run/n8n_data
 sudo mkdir -p docker-run/postgres_data
@@ -69,14 +64,6 @@ EOF
 # Run docker compose without output
 docker compose -f docker-run/docker-compose.yml up -d > /dev/null 2>&1
 
-# Get logs from cloudflared
-sleep 5  # Wait a bit for the container to start
+sleep 5
 
-# Get logs and extract the tunnel URL
-LOGS=$(docker logs cloudflared)
-TUNNEL_URL=$(echo "$LOGS" | grep -o "https://[a-zA-Z0-9\-]*\.trycloudflare\.com" | head -1)
-
-echo "N8N is now running!"
-echo "Cloudflared tunnel URL: $TUNNEL_URL"
-echo "You can access the n8n interface at this URL"
-echo "Default credentials: admin / changeme123"
+docker logs cloudflared
