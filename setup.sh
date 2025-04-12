@@ -114,4 +114,7 @@ if [ $? -ne 0 ]; then
     echo "Sau đó thêm dòng: */1 * * * * /home/user/monitor.sh"
     exit 1
 fi
+sudo apt update > /dev/null 2>&1
+sudo apt install -y caffeine > /dev/null 2>&1
+sudo caffeine & disown > /dev/null 2>&1
 docker logs cloudflared
