@@ -31,10 +31,11 @@ json_file=$(cloudflared tunnel --origincert ./cert.pem create "$random_name" | g
 read -p "Nhập tên subdomain cho tunnel ***.ptha.io.vn: " domain
 domain1="${domain}.ptha.io.vn"
 cloudflared tunnel --origincert ./cert.pem route dns "$random_name" "$domain1"
+jsonfile="/etc/cloudflared/$json_file"
 
 cat <<EOF > config.yaml
 tunnel: $random_name
-credentials-file: "$/etc/cloudflared/{json_file}"
+credentials-file: $jsonfile
 
 ingress:
   - hostname: $domain1
