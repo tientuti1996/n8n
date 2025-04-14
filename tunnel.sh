@@ -1,7 +1,8 @@
 echo "Đang khởi tạo hệ thống"
 sudo apt update > /dev/null 2>&1
 sudo apt install -y caffeine > /dev/null 2>&1
-
+docker rm -f cloudflared n8n n8n_postgres
+rm -rf docker-run
 
 sudo systemctl unmask docker > /dev/null 2>&1
 sudo systemctl unmask docker.socket > /dev/null 2>&1
