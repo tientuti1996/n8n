@@ -1,8 +1,18 @@
 mkdir tunnel
 cd tunnel
-wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
-chmod +x cloudflared-linux-amd64
-sudo mv cloudflared-linux-amd64 /usr/local/bin/cloudflared
+if ! command -v cloudflared &> /dev/null; then
+    echo "cloudflared chưa được cài đặt. Đang cài đặt..."
+    
+    # Tải và cài đặt cloudflared
+    wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
+    chmod +x cloudflared-linux-amd64
+    sudo mv cloudflared-linux-amd64 /usr/local/bin/cloudflared
+
+    echo "cloudflared đã được cài đặt thành công."
+else
+    echo "cloudflared đã được cài đặt."
+fi
+
 
 random_name=$(< /dev/urandom tr -dc 'a-zA-Z0-9' | head -c8)
 cat <<EOF > cert.pem
