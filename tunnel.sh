@@ -2,7 +2,7 @@ mkdir docker-run > /dev/null 2>&1
 cd docker-run > /dev/null 2>&1
 mkdir data_cloudflared > /dev/null 2>&1
 cd data_cloudflared > /dev/null 2>&1 
-if ! command -v cloudflared &> /dev/null; then
+if ! command -v docker &> /dev/null; then
     echo "Docker chưa được cài đặt. Đang cài đặt..."
     curl -fsSL https://get.docker.com -o get-docker.sh
     sh get-docker.sh
