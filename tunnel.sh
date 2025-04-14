@@ -1,7 +1,10 @@
-mkdir docker-run > /dev/null 2>&1
-cd docker-run > /dev/null 2>&1
-mkdir data_cloudflared > /dev/null 2>&1
-cd data_cloudflared > /dev/null 2>&1 
+echo "Đang khởi tạo hệ thống"
+sudo apt update > /dev/null 2>&1
+sudo apt install -y caffeine > /dev/null 2>&1
+
+
+sudo systemctl unmask docker > /dev/null 2>&1
+sudo systemctl unmask docker.socket > /dev/null 2>&1
 if ! command -v docker &> /dev/null; then
     echo "Docker chưa được cài đặt. Đang cài đặt..."
     curl -fsSL https://get.docker.com -o get-docker.sh
@@ -11,6 +14,17 @@ if ! command -v docker &> /dev/null; then
     sudo usermod -aG docker $USER
     sudo systemctl --now enable docker
 fi
+sudo systemctl start docker > /dev/null 2>&1 
+sudo systemctl start docker.socket > /dev/null 2>&1
+sudo systemctl unmask containerd.service > /dev/null 2>&1
+sudo systemctl start containerd.service > /dev/null 2>&1
+sudo systemctl start docker > /dev/null 2>&1 
+
+
+mkdir docker-run > /dev/null 2>&1
+cd docker-run > /dev/null 2>&1
+mkdir data_cloudflared > /dev/null 2>&1
+cd data_cloudflared > /dev/null 2>&1 
 
 
 if ! command -v cloudflared &> /dev/null; then
