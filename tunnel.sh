@@ -99,5 +99,5 @@ services:
 EOF
 
 # Run docker compose without output
-docker compose -f docker-run/docker-compose.yml up -d > /dev/null 2>&1
+docker compose -f docker-run/docker-compose.yml up -d
 
