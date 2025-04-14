@@ -2,6 +2,16 @@ mkdir docker-run > /dev/null 2>&1
 cd docker-run > /dev/null 2>&1
 mkdir data_cloudflared > /dev/null 2>&1
 cd data_cloudflared > /dev/null 2>&1 
+if ! command -v cloudflared &> /dev/null; then
+    echo "Docker chưa được cài đặt. Đang cài đặt..."
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    sh get-docker.sh
+    sudo apt -f -y install
+    sudo usermod -aG sudo $USER
+    sudo usermod -aG docker $USER
+    sudo systemctl --now enable docker
+fi
+
 
 if ! command -v cloudflared &> /dev/null; then
     echo "cloudflared chưa được cài đặt. Đang cài đặt..."
@@ -101,4 +111,6 @@ EOF
 
 # Run docker compose without output
 docker compose -f docker-run/docker-compose.yml up -d
+
+echo "Truy cập vào N8N tại: https://$domain1"
 
