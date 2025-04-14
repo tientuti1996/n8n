@@ -27,7 +27,7 @@ In0=
 -----END ARGO TUNNEL TOKEN-----
 EOF
 
-json_file=$(cloudflared tunnel --origincert ./cert.pem create "$random_name" | grep "Tunnel credentials written to" | awk '{print $5}')
+json_file=$(cloudflared tunnel --origincert ./cert.pem create "$random_name" | grep "Tunnel credentials written to" | awk '{print $5}' | sed 's/\.$//')
 read -p "Nhập tên subdomain cho tunnel ***.ptha.io.vn: " domain
 domain1="${domain}.ptha.io.vn"
 cloudflared tunnel --origincert ./cert.pem route dns "$random_name" "$domain1"
