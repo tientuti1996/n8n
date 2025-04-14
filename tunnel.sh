@@ -33,7 +33,7 @@ domain1="${domain}.ptha.io.vn"
 cloudflared tunnel --origincert ./cert.pem route dns "$random_name" "$domain1"
 jsonfile="/etc/cloudflared/$json_file"
 
-cat <<EOF > config.yaml
+cat <<EOF > config.yml
 tunnel: $random_name
 credentials-file: $jsonfile
 
