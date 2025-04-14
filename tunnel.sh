@@ -32,7 +32,6 @@ read -p "Nhập tên subdomain cho tunnel ***.ptha.io.vn: \n" domain
 domain1="${domain}.ptha.io.vn"
 cloudflared tunnel --origincert ./cert.pem route dns "$random_name" "$domain1"
 
-read -p "Nhập tên và port service cần tunnel ví dụ: http://n8n:5678 \n" localtunnel
 cat <<EOF > config.yaml
 tunnel: $random_name
 credentials-file: "$/etc/cloudflared/{json_file}"
