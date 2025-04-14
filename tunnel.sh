@@ -1,7 +1,7 @@
-mkdir docker-run
-cd docker-run
-mkdir data_cloudflared
-cd data_cloudflared
+mkdir docker-run > /dev/null 2>&1
+cd docker-run > /dev/null 2>&1
+mkdir data_cloudflared > /dev/null 2>&1
+cd data_cloudflared > /dev/null 2>&1 
 
 if ! command -v cloudflared &> /dev/null; then
     echo "cloudflared chưa được cài đặt. Đang cài đặt..."
@@ -17,7 +17,7 @@ else
 fi
 
 
-random_name=$(< /dev/urandom tr -dc 'a-zA-Z0-9' | head -c8)
+random_name=$(< /dev/urandom tr -dc 'a-zA-Z0-9' | head -c8) > /dev/null 2>&1
 cat <<EOF > cert.pem
 -----BEGIN ARGO TUNNEL TOKEN-----
 eyJ6b25lSUQiOiIyMzMzYzVkM2ZiOGNhNDMwNDRhNjhhNWE1OGExZjhiMyIsImFj
@@ -44,13 +44,13 @@ EOF
 
 cd ../../
 
-sudo mkdir -p docker-run/n8n_data
-sudo mkdir -p docker-run/postgres_data
+sudo mkdir -p docker-run/n8n_data > /dev/null 2>&1
+sudo mkdir -p docker-run/postgres_data > /dev/null 2>&1
 
 # Set permissions
-sudo chmod -R 777 docker-run
-sudo chmod -R 777 docker-run/n8n_data
-sudo chmod -R 777 docker-run/postgres_data
+sudo chmod -R 777 docker-run > /dev/null 2>&1
+sudo chmod -R 777 docker-run/n8n_data > /dev/null 2>&1
+sudo chmod -R 777 docker-run/postgres_data > /dev/null 2>&1
 
 # Create docker-compose.yml
 cat << 'EOF' > docker-run/docker-compose.yml
