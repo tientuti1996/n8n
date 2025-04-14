@@ -31,3 +31,4 @@ ingress:
 EOF
 
 cloudflared tunnel run "$random_name" --credentials-file="./$json_file"
+echo "Tunnel domain: $domain1"
