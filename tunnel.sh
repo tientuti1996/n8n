@@ -93,7 +93,7 @@ services:
     image: cloudflare/cloudflared:latest
     container_name: cloudflared
     restart: always
-    command: tunnel --url http://n8n:5678
+    command: tunnel --config /etc/cloudflared/config.yml run
     volumes:
       - ./data_cloudflared:/etc/cloudflared
 
