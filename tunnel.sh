@@ -40,5 +40,5 @@ ingress:
   - service: http_status:404
 EOF
 
-cloudflared tunnel run "$random_name" --credentials-file="./$json_file"
+cloudflared tunnel --origincert ./cert.pem --credentials-file="./$json_file" run "$random_name" 
 echo "Tunnel domain: $domain1"
