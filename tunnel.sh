@@ -95,8 +95,6 @@ services:
     image: n8nio/n8n
     container_name: n8n
     restart: always
-    ports:
-      - "5678:5678"
     environment:
       - DB_TYPE=postgresdb
       - DB_POSTGRESDB_HOST=postgres
