@@ -4,6 +4,16 @@ clear
 echo "-------------------------------"
 echo "Model của mainboard:"
 sudo dmidecode -t 2 | grep "Product Name"
+
+echo "-------------------------------"
+
+# In số lượng CPU vật lý và tên của CPU
+echo -e "\nThông tin về CPU:"
+cpu_sockets=$(lscpu | grep "Socket(s)" | awk -F: '{print $2}' | tr -d ' ')
+echo "Số lượng CPU vật lý: $cpu_sockets"
+echo "Tên CPU:"
+lscpu | grep "Model name" | awk -F: '{print $2}'
+
 echo "-------------------------------"
 
 # In thông tin model và serial của tất cả các ổ cứng
@@ -26,18 +36,7 @@ else
     echo "Không tìm thấy nvidia-smi, không thể lấy thông tin GPU NVIDIA."
 fi
 
-echo "-------------------------------"
 
-# In số lượng CPU vật lý và tên của CPU
-echo -e "\nThông tin về CPU:"
-cpu_sockets=$(lscpu | grep "Socket(s)" | awk -F: '{print $2}' | tr -d ' ')
-echo "Số lượng CPU vật lý: $cpu_sockets"
-echo "Tên CPU:"
-lscpu | grep "Model name" | awk -F: '{print $2}'
-
-# In số serial của CPU (từ dmidecode)
-echo "Số serial của CPU:"
-sudo dmidecode -t processor | grep "ID" | awk -F: '{print $2}'
 
 echo "-------------------------------"
 
