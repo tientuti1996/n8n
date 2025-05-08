@@ -44,5 +44,5 @@ echo "-------------------------------"
 echo -e "\nThông tin về RAM:"
 total_memory=$(free -h | grep Mem | awk '{print $2}')
 echo "Tổng bộ nhớ RAM: $total_memory"
-echo "Thông tin về từng thanh RAM:"
-sudo dmidecode -t memory | grep -i -e 'Size' -e 'Locator'
+#echo "Thông tin về từng thanh RAM:"
+#sudo dmidecode -t memory | grep -i -e 'Size' -e 'Locator'
