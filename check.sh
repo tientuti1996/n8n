@@ -18,7 +18,7 @@ echo "-------------------------------"
 
 # In thông tin model và serial của tất cả các ổ cứng
 echo -e "\nThông tin ổ cứng (Model và Serial):"
-lsblk -d -o NAME,MODEL,SERIAL
+lsblk -d -o NAME,MODEL,SERIAL | grep -v "loop" | grep -v "^[[:space:]]*$"  # Loại bỏ loop devices và dòng trống
 echo "-------------------------------"
 
 # In thông tin các card đồ họa từ lspci và nvidia-smi
