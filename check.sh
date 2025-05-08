@@ -1,5 +1,10 @@
 #!/bin/bash
 clear
+echo "-------------------------------"
+echo "Hostname: $(hostname)"
+echo -n "Địa chỉ IP: "
+ip -o -4 addr show | awk '{print $4}' | cut -d/ -f1 | grep -v '^127\.' | awk '!/^172\./ && (!/^10\./ || /^10\.124\./)' | paste -sd ' '
+echo "-------------------------------"
 # In model của mainboard
 echo "-------------------------------"
 echo "Model của mainboard:"
